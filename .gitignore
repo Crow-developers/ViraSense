@@ -1,0 +1,31 @@
+# --- Python & IDE ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.venv/
+env/
+venv/
+.idea/
+
+# --- Datasets & Raw Files (Large Data) ---
+data/raw/*
+data/processed/*
+data/thumbnails/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+!data/thumbnails/.gitkeep
+
+# --- Trained Models & Checkpoints ---
+models_saved/*
+!models_saved/.gitkeep
+
+# --- Results & Logs ---
+results/figures/*
+results/logs/*
+!results/figures/.gitkeep
+!results/logs/.gitkeep
+
+# --- OS Specific ---
+.DS_Store
+Thumbs.db
