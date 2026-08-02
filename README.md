@@ -81,7 +81,7 @@ This project is developed collaboratively by a 7-person team. See [`docs/team_ro
 
 ## 📦 Setup
 ```bash
-git clone <repo-url>
+git clone https://github.com/Crow-developers/ViraSense
 cd ViraSense
 pip install -r requirements.txt
 ```
