@@ -1,41 +1,57 @@
 from pathlib import Path
 import pandas as pd
 
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+
 
 def load_dataset():
-    """Load the raw dataset from the data/raw folder."""
-    data_path = (
-        R"C:\Users\ASUS TOF GAMING\PycharmProjects\ViraSense\data\raw\train.csv"
-                  )
-    df = pd.read_csv(data_path)
+    data_path = PROJECT_ROOT / "data" / "raw" / "train.csv"
+    return pd.read_csv(data_path)
+def clean_dataset(df):
+    # Remove duplicate rows
+    df = df.drop_duplicates()
+
+    # Remove rows without essential information
+    df = df.dropna(subset=["video_id", "title"])
+
+    # Fill missing numeric values with the median
+    numeric_columns = [
+        "duration",
+        "view_count",
+        "subscriber_count",
+        "virality_score"
+    ]
+
+    for column in numeric_columns:
+        if column in df.columns:
+            df[column] = df[column].fillna(df[column].median())
+
+    # Fill missing thumbnail URLs with an empty string
+    if "thumbnail_url" in df.columns:
+        df["thumbnail_url"] = df["thumbnail_url"].fillna("")
+
     return df
 
 
+def save_dataset(df):
+    output_path = Path("data/processed/cleaned_dataset.csv")
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    df.to_csv(output_path, index=False)
+
+
 def main():
-    # Load dataset
     df = load_dataset()
 
-    print("=" * 50)
-    print("\nFirst 5 Rows:")
-    print(df.head())
+    print("Original dataset shape:", df.shape)
 
-    print("\nDataset Shape:")
-    print(df.shape)
+    df = clean_dataset(df)
 
-    print("\nColumn Names:")
-    print(df.columns.tolist())
+    print("Cleaned dataset shape:", df.shape)
 
-    # Save processed dataset
-    output_path = Path(
-        r"C:\Users\ASUS TOF GAMING\PycharmProjects\ViraSense\data\processed\cleaned_dataset.csv"
-    )
+    save_dataset(df)
 
-    # إنشاء الفولدر تلقائياً إذا مو موجود
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-
-    df.to_csv(output_path, index=False)
-    print("\nProcessed dataset saved successfully!")
+    print("Cleaned dataset saved successfully!")
 
 
-if __name__== "__main__":
+if __name__ == "__main__":
     main()
