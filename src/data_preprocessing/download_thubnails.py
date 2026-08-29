@@ -2,9 +2,10 @@ import pandas as pd
 import requests
 from pathlib import Path
 
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
 # Paths
-DATA_PATH = Path("data/raw/train.csv")
-THUMBNAILS_DIR = Path("data/thumbnails")
+DATA_PATH = PROJECT_ROOT / "data" / "raw" / "train.csv"
+THUMBNAILS_DIR = PROJECT_ROOT / "data" / "thumbnails"
 
 # Create thumbnails folder if it doesn't exist
 THUMBNAILS_DIR.mkdir(parents=True, exist_ok=True)

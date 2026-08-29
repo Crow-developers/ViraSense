@@ -2,12 +2,11 @@ from pathlib import Path
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 
-
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
+PROJECT_ROOT = next(p for p in Path(__file__).resolve().parents if p.name == "ViraSense")
 
 
 def load_dataset():
-    data_path = PROJECT_ROOT / "data" / "processed" / "cleaned_dataset.csv"
+    data_path = PROJECT_ROOT /"data" / "processed" / "cleaned_dataset.csv"
     return pd.read_csv(data_path)
 
 
